@@ -7,7 +7,10 @@ h1 {
     text-align: center;
     font-family: "Arial Rounded MT Bold", sans-serif;
 }
-
+h3,
+.imageTitle{
+    visibility: hidden;
+}
 button.button {
     display: inline;
 }
@@ -28,4 +31,10 @@ div,
 .intro{
     background: floralwhite;
     text-align: center;
+}
+image,
+.image{
+    visibility: hidden;
+    height: 500px;
+    width: 500px;
 }

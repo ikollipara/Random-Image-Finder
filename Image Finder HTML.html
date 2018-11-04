@@ -14,7 +14,8 @@
 </div>
 <div class="spacer"></div>
 <div class="imageSection" id="imageSection">
-    <img src="" id="randomImage">
+    <h3 class="imageTitle" id="imageTitle"></h3>
+    <img src="" id="randomImage" class="image">
     <br>
     <button class="downloadButton" id="download" type="button" onclick='download()'>Download Image</button>
 </div>
@@ -40,6 +41,9 @@
                 imageUrl = data['value'][0].contentUrl;
                 document.getElementById('imageSection').style.background = 'antiquewhite';
                 document.getElementById('randomImage').src = imageUrl;
+                document.getElementById('randomImage').style.visibility = 'visible';
+                document.getElementById('imageTitle').appendChild(document.createTextNode('Search Term:'.concat(' ', document.getElementById('searchTerm').value)));
+                document.getElementById('imageTitle').style.visibility = 'visible';
                 document.getElementById('searchTerm').value = '';
                 document.getElementById('download').style.visibility = 'visible';
         });
