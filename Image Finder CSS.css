@@ -1,3 +1,7 @@
+body {
+    background: floralwhite repeat-x;
+}
+
 h1 {
     color: black;
     text-align: center;
@@ -6,6 +10,9 @@ h1 {
 
 button.button {
     display: inline;
+}
+.downloadButton {
+    visibility: hidden;
 }
 
 div,

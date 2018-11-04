@@ -4,17 +4,61 @@
     <meta charset="UTF-8">
     <title>Random Image Finder</title>
     <link rel="stylesheet" href="Image%20Finder%20CSS.css">
-    <script src="ImageFinderJS.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
-<body style="background-color: floralwhite">
+<body>
 <div class="intro">
     <h1 id="Title" >Random Image <br> Finder</h1>
     <input title="searchTerm" id="searchTerm">
     <button type="button" id="button" onclick="find_random_image()">Find Image</button>
 </div>
 <div class="spacer"></div>
-<div class="imageSection">
-    <img src="https://media.gettyimages.com/photos/high-angle-view-of-girl-in-swimming-pool-picture-id965607298" id="randomImage">
+<div class="imageSection" id="imageSection">
+    <img src="" id="randomImage">
+    <br>
+    <button class="downloadButton" id="download" type="button" onclick='download()'>Download Image</button>
 </div>
+<script type="application/javascript">
+    function find_random_image() {
+        $(function () {
+            let params = {
+                'q': document.getElementById('searchTerm').value,
+                'count': '1',
+                'offset': get_randInt(0, 100),
+                'mkt': 'en-us',
+                'safeSearch': 'Moderate',
+            };
+            $.ajax({
+                url: 'https://api.cognitive.microsoft.com/bing/v7.0/images/search?' + $.param(params),
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader('Ocp-Apim-Subscription-Key', '66d77e35799c4b258b01d684ef11381d');
+                },
+                type: 'GET',
+                data: 'Array',
+            }).done(function (data) {
+                let imageUrl;
+                imageUrl = data['value'][0].contentUrl;
+                document.getElementById('imageSection').style.background = 'antiquewhite';
+                document.getElementById('randomImage').src = imageUrl;
+                document.getElementById('searchTerm').value = '';
+                document.getElementById('download').style.visibility = 'visible';
+        });
+    });
+    function get_randInt(min, max) {
+        let x;
+        x = Math.floor(Math.random() * (max - min) ) + min;
+        return Math.round(x);
+    }
+    }
+    function download() {
+        let a;
+        a = $('<a>')
+            .attr('href', document.getElementById('randomImage').src)
+            .attr('download', 'random Image.png')
+            .appendTo('body');
+        a[0].click();
+        a.remove();
+    }
+</script>
 </body>
 </html>
