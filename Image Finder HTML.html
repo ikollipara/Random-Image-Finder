@@ -10,20 +10,28 @@
 <div class="intro">
     <h1 id="Title" >Random Image <br> Finder</h1>
     <input title="searchTerm" id="searchTerm">
-    <button type="button" id="button" onclick="find_random_image()">Find Image</button>
+    <button type="button" id="imageFinder" onclick="find_random_image(document.getElementById('searchTerm').value)">Find Image</button>
 </div>
 <div class="spacer"></div>
 <div class="imageSection" id="imageSection">
     <h3 class="imageTitle" id="imageTitle"></h3>
     <img src="" id="randomImage" class="image">
     <br>
+    <button class="downloadButton" id="searchAgain" type="button" onclick="search_again()">Search Again</button>
     <button class="downloadButton" id="download" type="button" onclick='download()'>Download Image</button>
 </div>
 <script type="application/javascript">
-    function find_random_image() {
+    let button;
+    button = document.getElementById('searchTerm');
+    button.addEventListener('keydown', function (e) {
+        if (e.keyCode === 13) {
+            document.getElementById('imageFinder').click()
+        }
+    });
+    function find_random_image(searchTerm) {
         $(function () {
             let params = {
-                'q': document.getElementById('searchTerm').value,
+                'q': searchTerm,
                 'count': '1',
                 'offset': get_randInt(0, 100),
                 'mkt': 'en-us',
@@ -42,10 +50,11 @@
                 document.getElementById('imageSection').style.background = 'antiquewhite';
                 document.getElementById('randomImage').src = imageUrl;
                 document.getElementById('randomImage').style.visibility = 'visible';
-                document.getElementById('imageTitle').appendChild(document.createTextNode('Search Term:'.concat(' ', document.getElementById('searchTerm').value)));
+                document.getElementById('imageTitle').innerHTML = 'Search Term:'.concat(' ', searchTerm);
                 document.getElementById('imageTitle').style.visibility = 'visible';
                 document.getElementById('searchTerm').value = '';
                 document.getElementById('download').style.visibility = 'visible';
+                document.getElementById('searchAgain').style.visibility = 'visible';
         });
     });
     function get_randInt(min, max) {
@@ -62,6 +71,13 @@
             .appendTo('body');
         a[0].click();
         a.remove();
+    }
+    function search_again() {
+        let term;
+        let slicedTerm;
+        term = document.getElementById('imageTitle').innerHTML;
+        slicedTerm = term.slice(13);
+        find_random_image(slicedTerm);
     }
 </script>
 </body>
